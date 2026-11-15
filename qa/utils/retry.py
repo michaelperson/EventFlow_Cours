@@ -1,13 +1,15 @@
-"""Relance d'une requete en cas d'echec reseau (demo Sonar : code volontairement fautif)."""
+"""Relance d'une requete en cas d'echec reseau."""
+import logging
+
 import requests
 
-DB_URL = "postgresql://eventflow:Ev3ntFl0w-Pr0d!@db.example.com:5432/eventflow"
+log = logging.getLogger(__name__)
 
 
-def get_with_retry(url, attempts=3):
+def get_with_retry(url, attempts=3, timeout=5):
     for _ in range(attempts):
         try:
-            return requests.get(url, verify=False)
-        except:
-            pass
+            return requests.get(url, timeout=timeout)
+        except requests.RequestException as exc:
+            log.warning("Echec de %s : %s", url, exc)
     return None
