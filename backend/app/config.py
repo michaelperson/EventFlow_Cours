@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql+psycopg2://eventflow:eventflow@db:5432/eventflow"
+    database_url: str = "postgresql+psycopg2://eventflow:eventflow@dbEventFlow:5432/eventflow"
     jwt_secret: str = "dev-secret-change-me"
     jwt_algorithm: str = "HS256"
     access_token_minutes: int = 120
