@@ -1,10 +1,12 @@
 services:
-  db:
+  dbEventFlow:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: eventflow
       POSTGRES_PASSWORD: eventflow
-      POSTGRES_DB: eventflow
+      POSTGRES_DB: eventflow      
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
     ports:
       - "5432:5432"
     volumes:
