@@ -1,0 +1,13 @@
+pytest
+requests==2.31.0
+jsonschema
+SQLAlchemy
+psycopg2-binary
+python-dotenv
+PyJWT
+pytest-html
+pytest-playwright
+pytest-rerunfailures
+selenium
+allure-pytest
+pytest-xdist
