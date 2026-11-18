@@ -1,0 +1,15 @@
+ {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug tests (qa)",
+        "type": "debugpy",
+        "request": "launch",
+        "purpose": ["debug-test"],
+        "python": "${workspaceFolder}/qa/.venv/Scripts/python.exe",
+        "cwd": "${workspaceFolder}/qa",
+        "console": "integratedTerminal",
+        "justMyCode": false
+      }
+    ]
+  }

@@ -7,6 +7,9 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=michaelperson_EventFlow_Cours2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=michaelperson_EventFlow_Cours2)
+[![Security issues](https://sonarcloud.io/api/project_badges/measure?project=michaelperson_EventFlow_Cours2&metric=software_quality_security_issues)](https://sonarcloud.io/summary/new_code?id=michaelperson_EventFlow_Cours2)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=michaelperson_EventFlow_Cours2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=michaelperson_EventFlow_Cours2)
 
 eventflow est une application web réaliste à trois tiers (React, FastAPI, PostgreSQL) qui permet à des organisateurs de mettre en vente des billets pour leurs événements, et au public de réserver et payer en ligne. Elle sert de fil rouge à la formation Testeur QA : les stagiaires l'explorent, la testent et l'industrialisent tout au long du programme, du test manuel jusqu'à la chaîne CI/CD.
 
@@ -14,24 +17,25 @@ La version actuelle implémente le comportement attendu. Les bugs intentionnels 
 
 ## Sommaire
 
-- [Fonctionnalités](#fonctionnalités)
-- [Architecture](#architecture)
-- [Stack technique](#stack-technique)
-- [Prérequis](#prérequis)
-- [Démarrage rapide (Docker)](#démarrage-rapide-docker)
-- [Démarrage manuel](#démarrage-manuel)
-- [Configuration](#configuration)
-- [Données de démonstration](#données-de-démonstration)
-- [Référence de l'API](#référence-de-lapi)
-- [Parcours fonctionnel](#parcours-fonctionnel)
-- [Règles métier](#règles-métier)
-- [Modèle de données](#modèle-de-données)
-- [Charte graphique](#charte-graphique)
-- [Contexte pédagogique](#contexte-pédagogique)
-- [Structure du dépôt](#structure-du-dépôt)
-- [Dépannage](#dépannage)
-- [Feuille de route](#feuille-de-route)
-- [Licence](#licence)
+- [eventflow](#eventflow)
+  - [Sommaire](#sommaire)
+  - [Fonctionnalités](#fonctionnalités)
+  - [Architecture](#architecture)
+  - [Stack technique](#stack-technique)
+  - [Prérequis](#prérequis)
+  - [Démarrage rapide (Docker)](#démarrage-rapide-docker)
+  - [Démarrage manuel](#démarrage-manuel)
+  - [Configuration](#configuration)
+  - [Données de démonstration](#données-de-démonstration)
+  - [Référence de l'API](#référence-de-lapi)
+  - [Parcours fonctionnel](#parcours-fonctionnel)
+  - [Règles métier](#règles-métier)
+  - [Modèle de données](#modèle-de-données)
+  - [Charte graphique](#charte-graphique)
+  - [Contexte pédagogique](#contexte-pédagogique)
+  - [Projet de tests EventFlow-QA](#projet-de-tests-eventflow-qa)
+  - [Structure du dépôt](#structure-du-dépôt)
+  - [Dépannage](#dépannage)
 
 ## Fonctionnalités
 
@@ -269,6 +273,10 @@ SEED_BUGS=true docker compose up --build backend
 
 Bugs déjà disponibles : B1 (sur-réservation), B2 (plafond de billets contournable), B3 (IDOR), B4 (code promo expiré accepté), B5 (stock non libéré), B7 (écart d'arrondi), B9 (JWT sans expiration), B10 (injection SQL), B11 (réponse non conforme), B12 (bouton de paiement instable). Le détail et la reproduction de chacun se trouvent dans `docs/FIL_ROUGE_BUGS.md`. L'endpoint `GET /api/config` expose l'état du mode bug.
 
+## Projet de tests EventFlow-QA
+
+La branche `eventflow-qa` contient le projet de tests construit pendant les modules 9 à 11 (PyTest, Playwright, Selenium, Locust, GitHub Actions, Allure). Il se trouve dans le dossier `qa/`, le pipeline dans `.github/workflows/ci.yml`. Voir `qa/README.md`.
+
 ## Structure du dépôt
 
 ```
@@ -309,4 +317,4 @@ Connexion impossible avec une erreur 500 mentionnant un email invalide : les adr
 
 Réservation affichée comme « expirée » dès la page de paiement : signe d'une date interprétée dans le mauvais fuseau. L'API renvoie des dates en UTC explicite (suffixe `Z`) et le frontend les parse comme UTC. Conservez ce contrat si vous ajoutez des dates.
 
-Colonnes de profil (`phone`, `avatar`) absentes sur une base ancienne : le backend les ajoute automatiquement au démarrage via une migration idempotente (`ALTER TABLE ... ADD COLUMN`). Un redémarrage du 
+Colonnes de profil (`phone`, `avatar`) absentes sur une base ancienne : le backend les ajoute automatiquement au démarrage via une migration idempotente (`ALTER TABLE ... ADD COLUMN`). Un redémarrage du
