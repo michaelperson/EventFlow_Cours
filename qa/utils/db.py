@@ -1,4 +1,5 @@
 """Acces direct a la base PostgreSQL d'EventFlow pour les controles de coherence."""
+
 from sqlalchemy import create_engine, text
 
 from utils.config import DB_URL
@@ -26,7 +27,7 @@ def execute(sql, **params):
 def order_payment(order_id):
     """Montant de la commande vs montant reellement preleve."""
     rows = fetch_all(
-        f"SELECT o.total_cents, p.amount_cents FROM orders o "
+        f"SELECT o.total_cents, p.amount_cents FROM orders o "  # noqa: S608 - POur garder des soucis pour la suite du cours
         f"JOIN payments p ON p.order_id = o.id WHERE o.id = {order_id}"
     )
     return rows[0] if rows else None

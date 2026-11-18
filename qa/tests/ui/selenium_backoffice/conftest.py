@@ -34,7 +34,11 @@ def driver(request):
     yield drv
 
     if getattr(request.node, "rep_call", None) and request.node.rep_call.failed:
-        allure.attach(drv.get_screenshot_as_png(), name="capture-echec", attachment_type=allure.attachment_type.PNG)
+        allure.attach(
+            drv.get_screenshot_as_png(),
+            name="capture-echec",
+            attachment_type=allure.attachment_type.PNG,
+        )
     drv.quit()
 
 

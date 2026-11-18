@@ -1,0 +1,31 @@
+  target-version = "py311"      # même version que la CI et le venv
+  line-length = 100             # lisible côte à côte dans une revue de PR
+  extend-exclude = ["reports"]  # rapports générés, pas du code
+
+  [format]
+  docstring-code-format = true  # le reste par défaut : on ne débat pas du style
+
+  [lint]
+  # Le jeu par défaut de Ruff 0.17 est déjà large (B, UP, SIM, I, DTZ...).
+  extend-select = [
+    "S",    # sécurité (Bandit) : secrets en dur, verify=False, requests sans timeout
+    "PT",   # bonnes pratiques pytest au complet
+    "T20",  # print() oubliés
+    "N",    # nommage PEP 8
+    "A",    # pas de variable qui masque un builtin (id, type...)
+    "ARG",  # arguments reçus mais jamais utilisés
+    "ERA",  # code commenté laissé en place
+    "TID",  # imports interdits (banned-api)
+  ]
+  ignore = ["N812",   "TID251", "ERA001"]  # « import ... as ec » : alias idiomatique Selenium
+  #TID251 gardé pour les effets de bord sur les tests qui passent de rouge à vert de manière aléatoire
+  #ERA001 code commenté dans les tests, pas de problème
+
+  [lint.per-file-ignores]
+  "tests/**" = ["S101", "S105", "S106", "ARG001"]  # assert, mdp de recette, fixtures à effet de bord
+  "conftest.py" = ["S105", "S106", "S101"]
+  "tests/performance/locustfile.py" = ["S311"]      # random pour simuler des utilisateurs
+  "utils/factories.py" = ["S107"]  # PasswordFactory génère des mots de passe aléatoires pour les tests, pas de problème
+
+  [lint.flake8-tidy-imports.banned-api]
+  "time.sleep".msg = "Attente fixe = test lent et flaky. Utiliser une attente explicite (expect, WebDriverWait)."

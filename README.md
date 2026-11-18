@@ -317,4 +317,4 @@ Connexion impossible avec une erreur 500 mentionnant un email invalide : les adr
 
 Réservation affichée comme « expirée » dès la page de paiement : signe d'une date interprétée dans le mauvais fuseau. L'API renvoie des dates en UTC explicite (suffixe `Z`) et le frontend les parse comme UTC. Conservez ce contrat si vous ajoutez des dates.
 
-Colonnes de profil (`phone`, `avatar`) absentes sur une base ancienne : le backend les ajoute automatiquement au démarrage via une migration idempotente (`ALTER TABLE ... ADD COLUMN`). Un redémarrage du 
+Colonnes de profil (`phone`, `avatar`) absentes sur une base ancienne : le backend les ajoute automatiquement au démarrage via une migration idempotente (`ALTER TABLE ... ADD COLUMN`). Un redémarrage du

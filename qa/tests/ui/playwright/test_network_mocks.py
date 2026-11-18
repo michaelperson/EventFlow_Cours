@@ -1,4 +1,5 @@
 """Isoler l'interface du back-end en interceptant les appels reseau (page.route)."""
+
 import re
 
 import pytest
@@ -19,7 +20,9 @@ def test_catalog_renders_mocked_events(page: Page):
 
 
 def test_catalog_handles_server_error(page: Page):
-    page.route("**/api/events", lambda route: route.fulfill(status=500, body="Internal Server Error"))
+    page.route(
+        "**/api/events", lambda route: route.fulfill(status=500, body="Internal Server Error")
+    )
     page.goto("/")
     expect(page.get_by_text("Aucun evenement trouve.")).to_be_visible()
 
@@ -30,17 +33,23 @@ def test_payment_gateway_timeout_message(logged_in_page: Page, qa_event):
 
     logged_in_page.route(re.compile(r".*/api/orders/\d+/pay$"), gateway_down)
     logged_in_page.goto(f"/events/{qa_event['id']}")
-    logged_in_page.locator(".cat-row").filter(has_text="Plein tarif").get_by_role("button", name="+").click()
+    logged_in_page.locator(".cat-row").filter(has_text="Plein tarif").get_by_role(
+        "button", name="+"
+    ).click()
     logged_in_page.get_by_role("button", name="Continuer vers le paiement").click()
     logged_in_page.get_by_placeholder("Camille Client").fill("QA Bot")
     logged_in_page.get_by_role("button", name=re.compile("^Payer")).click()
-    expect(logged_in_page.locator(".notice-err")).to_have_text("Passerelle de paiement indisponible")
+    expect(logged_in_page.locator(".notice-err")).to_have_text(
+        "Passerelle de paiement indisponible"
+    )
 
 
 def test_payment_request_payload(logged_in_page: Page, qa_event):
     """On espionne la requete envoyee au back-end sans la modifier."""
     logged_in_page.goto(f"/events/{qa_event['id']}")
-    logged_in_page.locator(".cat-row").filter(has_text="Plein tarif").get_by_role("button", name="+").click()
+    logged_in_page.locator(".cat-row").filter(has_text="Plein tarif").get_by_role(
+        "button", name="+"
+    ).click()
     logged_in_page.get_by_role("button", name="Continuer vers le paiement").click()
     logged_in_page.get_by_placeholder("Camille Client").fill("QA Bot")
     with logged_in_page.expect_request(re.compile(r".*/api/orders/\d+/pay$")) as req_info:

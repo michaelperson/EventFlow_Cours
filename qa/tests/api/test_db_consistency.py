@@ -1,4 +1,5 @@
 """Controles de coherence directement en base (necessite le PostgreSQL du docker compose)."""
+
 from datetime import datetime, timedelta
 
 import pytest
@@ -30,15 +31,20 @@ def test_expired_reservation_releases_stock(new_client_api, anonymous_api, qa_ev
     early = category(qa_event, "Early bird")
 
     def available():
-        return category(anonymous_api.get(f"/api/events/{qa_event['id']}").json(), "Early bird")["available"]
+        return category(anonymous_api.get(f"/api/events/{qa_event['id']}").json(), "Early bird")[
+            "available"
+        ]
 
     initial = available()
-    order = new_client_api.create_order(qa_event["id"], [{"category_id": early["id"], "quantity": 3}]).json()
+    order = new_client_api.create_order(
+        qa_event["id"], [{"category_id": early["id"], "quantity": 3}]
+    ).json()
     assert available() == initial - 3
 
     db.execute(
         "UPDATE orders SET expires_at = :past WHERE id = :id",
-        past=datetime.utcnow() - timedelta(minutes=1), id=order["id"],
+        past=datetime.now() - timedelta(minutes=1),
+        id=order["id"],
     )
 
     assert available() == initial, "Le stock n'est pas libere apres expiration (B5)"
