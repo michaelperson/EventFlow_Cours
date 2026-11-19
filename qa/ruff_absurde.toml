@@ -1,0 +1,44 @@
+# ruff-absurde.toml : la config qu'on ne mettra JAMAIS en prod.
+  line-length = 40          # l'écran d'un Minitel... en plus étroit
+  indent-width = 8          # un tab = 8 colonnes, comme en 1978
+  preview = true            # pour avoir les règles expérimentales (copyright !)
+
+  [format]
+  quote-style = "single"            # PEP 8 s'en fiche, l'équipe va s'écharper
+  indent-style = "tab"              # la guerre de religion, version Python
+  skip-magic-trailing-comma = true  # on écrase les belles listes verticales
+  docstring-code-format = true
+
+  [lint]
+  select = ["ALL"]                  # les ~900 règles, d'un coup
+  ignore = ["COM812", "ISC001", "W191", "D206"]  # conflits avec le formateur / les tabs
+
+  [lint.mccabe]
+  max-complexity = 1                # un seul chemin : pas de if, jamais
+
+  [lint.pylint]
+  max-args = 1                      # une fonction = un argument, point
+  max-branches = 1
+  max-returns = 1
+  max-statements = 3                # trois lignes et on passe à autre chose
+  max-nested-blocks = 1
+  allow-magic-value-types = []      # même 200 est un nombre magique
+
+  [lint.flake8-tidy-imports]
+  ban-relative-imports = "all"
+
+  [lint.flake8-tidy-imports.banned-api]
+  "time.sleep".msg = "Un testeur n'attend pas : il synchronise."
+  "requests".msg = "On ne parle pas au réseau sans demander la permission au PO."
+  "random".msg = "Le hasard, c'est B12. On a déjà donné."
+
+  [lint.flake8-copyright]
+  notice-rgx = '(?i)Copyright \(C\) 2026 La Licorne QA'
+  min-file-size = 0                 # même un __init__.py vide doit être signé
+
+  [lint.flake8-errmsg]
+  max-string-length = 0             # tout message d'erreur dans une variable
+
+  [lint.flake8-pytest-style]
+  fixture-parentheses = true        # @pytest.fixture() obligatoire
+  mark-parentheses = true

@@ -1,6 +1,7 @@
 """Fabriques de donnees de test : evenements et utilisateurs isoles par execution."""
+
 import uuid
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 from utils.api_client import ApiClient
 
@@ -9,14 +10,16 @@ def unique(prefix="qa"):
     return f"{prefix}-{uuid.uuid4().hex[:8]}"
 
 
-def create_event(admin: ApiClient, status="published", early_quota=50, full_quota=200, vip_quota=3, title=None):
+def create_event(
+    admin: ApiClient, status="published", early_quota=50, full_quota=200, vip_quota=3, title=None
+):
     """Cree un evenement dedie aux tests via l'API back-office et retourne son detail."""
     payload = {
         "title": title or f"QA Event {unique()}",
         "description": "Evenement cree par la suite de tests automatisee",
         "city": "Bruxelles",
         "venue": "Salle QA",
-        "starts_at": (datetime.utcnow() + timedelta(days=45)).isoformat(),
+        "starts_at": (datetime.now(tz=UTC) + timedelta(days=45)).isoformat(),
         "capacity": early_quota + full_quota + vip_quota,
         "status": status,
         "categories": [
@@ -26,15 +29,23 @@ def create_event(admin: ApiClient, status="published", early_quota=50, full_quot
         ],
     }
     r = admin.post("/api/admin/events", json=payload)
-    assert r.status_code == 201, r.text
-    return r.json()
+    # assert r.status_code == 201, r.text
+    if r.status_code == 201:
+        return r.json()
+    else:
+        raise RuntimeError("Unable to create event")
 
 
 def register_user(api: ApiClient, password="Passw0rd!"):
     email = f"{unique('user')}@example.com"
-    r = api.post("/api/auth/register", json={"email": email, "password": password, "full_name": "QA User"})
-    assert r.status_code == 201, r.text
-    return email, password
+    r = api.post(
+        "/api/auth/register", json={"email": email, "password": password, "full_name": "QA User"}
+    )
+    # assert r.status_code == 201, r.text
+    if r.status_code == 201:
+        return email, password
+    else:
+        raise RuntimeError(f"Création de l'utilisateur échouée ({r.status_code}) : {r.text}")
 
 
 def category(event, name):

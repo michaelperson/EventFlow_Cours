@@ -1,4 +1,5 @@
 """Validation de reponses JSON contre les schemas du dossier qa/schemas."""
+
 import json
 from pathlib import Path
 
@@ -21,4 +22,7 @@ def schema_errors(instance, schema_name):
     """Retourne la liste des erreurs (vide si conforme) - plus lisible qu'une exception."""
     schema = json.loads((SCHEMA_DIR / schema_name).read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema, registry=_registry())
-    return [f"{'/'.join(map(str, e.path)) or '<racine>'}: {e.message}" for e in validator.iter_errors(instance)]
+    return [
+        f"{'/'.join(map(str, e.path)) or '<racine>'}: {e.message}"
+        for e in validator.iter_errors(instance)
+    ]

@@ -1,4 +1,5 @@
 """Tests de securite inspires de l'OWASP API Security Top 10 (2023)."""
+
 import jwt
 import pytest
 
@@ -12,7 +13,9 @@ pytestmark = [pytest.mark.api, pytest.mark.security]
 @pytest.fixture
 def victim_order(new_client_api, qa_event):
     plein = category(qa_event, "Plein tarif")
-    order = new_client_api.create_order(qa_event["id"], [{"category_id": plein["id"], "quantity": 1}]).json()
+    order = new_client_api.create_order(
+        qa_event["id"], [{"category_id": plein["id"], "quantity": 1}]
+    ).json()
     new_client_api.pay(order["id"], config.CARD_OK)
     return order
 
@@ -38,7 +41,9 @@ def test_idor_cannot_download_ticket_of_another_user(attacker_api, victim_order)
 
 def test_idor_cannot_pay_order_of_another_user(attacker_api, new_client_api, qa_event):
     plein = category(qa_event, "Plein tarif")
-    order = new_client_api.create_order(qa_event["id"], [{"category_id": plein["id"], "quantity": 1}]).json()
+    order = new_client_api.create_order(
+        qa_event["id"], [{"category_id": plein["id"], "quantity": 1}]
+    ).json()
     assert attacker_api.pay(order["id"], config.CARD_OK).status_code == 404
 
 
@@ -84,5 +89,7 @@ def test_search_is_not_injectable(anonymous_api, draft_event, payload):
     r = anonymous_api.get("/api/events", params={"q": payload})
     assert r.status_code == 200
     titles = [e["title"] for e in r.json()]
-    assert draft_event["title"] not in titles, f"Injection SQL : le brouillon fuit avec {payload!r} (B10)"
+    assert draft_event["title"] not in titles, (
+        f"Injection SQL : le brouillon fuit avec {payload!r} (B10)"
+    )
     assert all(e["status"] == "published" for e in r.json())

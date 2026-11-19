@@ -45,7 +45,8 @@ class BasePage:
             "const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;"
             "setter.call(el, v);"
             "el.dispatchEvent(new Event('input', {bubbles: true}));",
-            el, value,
+            el,
+            value,
         )
 
     def text_of(self, locator):
@@ -54,13 +55,18 @@ class BasePage:
     def texts(self, locator, child_css=None):
         """Lit le texte d'une liste d'elements en tolerant les re-rendus React
         (StaleElementReference) et les etats 'chargement' / 'liste vide'."""
+
         def read(driver):
             try:
                 elements = driver.find_elements(*locator)
-                values = [(e.find_element(By.CSS_SELECTOR, child_css) if child_css else e).text for e in elements]
+                values = [
+                    (e.find_element(By.CSS_SELECTOR, child_css) if child_css else e).text
+                    for e in elements
+                ]
                 return values or False
             except (StaleElementReferenceException, NoSuchElementException):
                 return False
+
         return self.wait.until(read)
 
     def wait_url_contains(self, fragment):

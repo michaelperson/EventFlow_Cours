@@ -26,7 +26,10 @@ class EventFormPage(BasePage):
 
 class EventManagePage(BasePage):
     TITLE = (By.CSS_SELECTOR, "h1.page-title")
-    CATEGORY_ROWS = (By.XPATH, "//h3[text()='Categories de billets']/following-sibling::div[1]//tbody/tr")
+    CATEGORY_ROWS = (
+        By.XPATH,
+        "//h3[text()='Categories de billets']/following-sibling::div[1]//tbody/tr",
+    )
     NEW_CAT_NAME = (By.CSS_SELECTOR, "input[placeholder='Nom']")
     ADD_CAT = (By.XPATH, "//button[contains(., 'Ajouter')]")
 
@@ -38,7 +41,7 @@ class EventManagePage(BasePage):
         self.type(self.field("Prix (EUR)"), str(price_eur))
         self.type(self.field("Quota"), str(quota))
         self.click(self.ADD_CAT)
-        self.wait.until(lambda d: name in self.category_names())
+        self.wait.until(lambda _d: name in self.category_names())
 
     def category_names(self):
         return self.texts(self.CATEGORY_ROWS, "td")
