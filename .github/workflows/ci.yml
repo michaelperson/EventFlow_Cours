@@ -44,7 +44,7 @@ jobs:
       - name: Tests API
         working-directory: qa
         run: pytest tests/api -n auto --alluredir=reports/allure-results --junitxml=reports/junit-api.xml
-        continue-on-error: true
+      
         
       - name: Tests UI Playwright
         if: ${{ !cancelled() }}
