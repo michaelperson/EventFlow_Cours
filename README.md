@@ -1,23 +1,18 @@
-# eventflow
+# EventFlow-QA
 
-> Plateforme de billetterie événementielle — support pédagogique (fil rouge) de la formation Testeur QA.
+  [![CI](https://github.com/michaelperson/EventFlow_Cours/actions/workflows/ci.yml/badge.svg?branch=eventflow-qa)](http
+  s://github.com/michaelperson/EventFlow_Cours/actions/workflows/ci.yml)
+  [![Release](https://img.shields.io/github/v/release/michaelperson/EventFlow_Cours)](https://github.com/michaelperson/
+  EventFlow_Cours/releases)
 
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
-[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=michaelperson_EventFlow_Cours2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=michaelperson_EventFlow_Cours2)
-[![Security issues](https://sonarcloud.io/api/project_badges/measure?project=michaelperson_EventFlow_Cours2&metric=software_quality_security_issues)](https://sonarcloud.io/summary/new_code?id=michaelperson_EventFlow_Cours2)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=michaelperson_EventFlow_Cours2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=michaelperson_EventFlow_Cours2)
-
-eventflow est une application web réaliste à trois tiers (React, FastAPI, PostgreSQL) qui permet à des organisateurs de mettre en vente des billets pour leurs événements, et au public de réserver et payer en ligne. Elle sert de fil rouge à la formation Testeur QA : les stagiaires l'explorent, la testent et l'industrialisent tout au long du programme, du test manuel jusqu'à la chaîne CI/CD.
-
-La version actuelle implémente le comportement attendu. Les bugs intentionnels du fil rouge (B1 à B12) seront ajoutés ensuite, activables via une variable d'environnement, afin de servir les exercices de chaque module.
+  Suite de tests automatisés (API pytest, UI Playwright, back-office Selenium, charge Locust) de la billetterie
+  EventFlow, exécutée en CI GitHub Actions. Dernière version :
+  [v1.0.0](https://github.com/michaelperson/EventFlow_Cours/releases/tag/v1.0.0). Détail de la suite et commandes :
+  [qa/README.md](qa/README.md).
 
 ## Sommaire
 
-- [eventflow](#eventflow)
+- [EventFlow-QA](#eventflow-qa)
   - [Sommaire](#sommaire)
   - [Fonctionnalités](#fonctionnalités)
   - [Architecture](#architecture)
@@ -36,6 +31,7 @@ La version actuelle implémente le comportement attendu. Les bugs intentionnels 
   - [Projet de tests EventFlow-QA](#projet-de-tests-eventflow-qa)
   - [Structure du dépôt](#structure-du-dépôt)
   - [Dépannage](#dépannage)
+  - [Droits](#droits)
 
 ## Fonctionnalités
 
@@ -318,3 +314,6 @@ Connexion impossible avec une erreur 500 mentionnant un email invalide : les adr
 Réservation affichée comme « expirée » dès la page de paiement : signe d'une date interprétée dans le mauvais fuseau. L'API renvoie des dates en UTC explicite (suffixe `Z`) et le frontend les parse comme UTC. Conservez ce contrat si vous ajoutez des dates.
 
 Colonnes de profil (`phone`, `avatar`) absentes sur une base ancienne : le backend les ajoute automatiquement au démarrage via une migration idempotente (`ALTER TABLE ... ADD COLUMN`). Un redémarrage du 
+
+## Droits
+ce qui est à BStorm, ce qui est à vous.
