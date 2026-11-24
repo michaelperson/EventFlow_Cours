@@ -1,14 +1,9 @@
 # EventFlow-QA
 
-  [![CI](https://github.com/michaelperson/EventFlow_Cours/actions/workflows/ci.yml/badge.svg?branch=eventflow-qa)](http
-  s://github.com/michaelperson/EventFlow_Cours/actions/workflows/ci.yml)
-  [![Release](https://img.shields.io/github/v/release/michaelperson/EventFlow_Cours)](https://github.com/michaelperson/
-  EventFlow_Cours/releases)
+[![CI](https://github.com/michaelperson/EventFlow_Cours/actions/workflows/ci.yml/badge.svg?branch=eventflow-qa)](https://github.com/michaelperson/EventFlow_Cours/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/michaelperson/EventFlow_Cours)](https://github.com/michaelperson/EventFlow_Cours/releases)
 
-  Suite de tests automatisés (API pytest, UI Playwright, back-office Selenium, charge Locust) de la billetterie
-  EventFlow, exécutée en CI GitHub Actions. Dernière version :
-  [v1.0.0](https://github.com/michaelperson/EventFlow_Cours/releases/tag/v1.0.0). Détail de la suite et commandes :
-  [qa/README.md](qa/README.md).
+Suite de tests automatisés (API pytest, UI Playwright, back-office Selenium, charge Locust) de la billetterie EventFlow, exécutée en CI GitHub Actions. Dernière version : [v1.0.0](https://github.com/michaelperson/EventFlow_Cours/releases/tag/v1.0.0). Détail de la suite et commandes : [qa/README.md](qa/README.md).
 
 ## Sommaire
 
@@ -316,4 +311,6 @@ Réservation affichée comme « expirée » dès la page de paiement : signe d'u
 Colonnes de profil (`phone`, `avatar`) absentes sur une base ancienne : le backend les ajoute automatiquement au démarrage via une migration idempotente (`ALTER TABLE ... ADD COLUMN`). Un redémarrage du 
 
 ## Droits
-ce qui est à BStorm, ce qui est à vous.
+
+Support de formation BStorm (fil rouge EventFlow). Code de l'application © BStorm, tous droits réservés.
+Les tests, la documentation et la configuration CI de ce dépôt sont mon travail, réalisé pendant la formation Testeur QA 2026.
